@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { signIn, signOut, useSession, getProviders } from "next-auth/react";
 const Nav = () => {
-  const isUserLoggedIn = true;
+  const { data: session } = useSession();
 
   const [providers, setProviders] = useState(null);
   const [toggleDropdown, setToggleDropdown] = useState(false);
@@ -29,10 +29,9 @@ const Nav = () => {
         />
         <p className="logo_text">GPTdeck</p>
       </Link>
-
       {/* for desktop view */}
       <div className="sm:flex hidden">
-        {isUserLoggedIn ? (
+        {session?.user ? (
           <>
             <div className="flex gap-3 md:gap-5">
               <Link href="/createprompt" className="black_btn">
@@ -45,7 +44,7 @@ const Nav = () => {
 
               <Link href="/profile">
                 <Image
-                  src="/assets/images/logo.svg"
+                  src={session?.user.image}
                   width={37}
                   height={37}
                   alt="profile image"
@@ -73,11 +72,11 @@ const Nav = () => {
 
       {/* mobile view */}
       <div className="sm:hidden flex relative">
-        {isUserLoggedIn ? (
+        {session?.user ? (
           <>
             <div className="flex">
               <Image
-                src="/assets/images/logo.svg"
+                src={session?.user.image}
                 width={37}
                 height={37}
                 alt="profile image"

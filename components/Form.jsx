@@ -49,7 +49,7 @@ const Form = ({ type, post, setPost, submitting, handleSubmit }) => {
             className="px-5 py-1.5 text-sm rounded-full text-white bg-primary-orange
           "
           >
-            {submitting ? `${text}...` : type}
+            {submitting ? `${type}...` : type}
           </button>
         </div>
       </form>

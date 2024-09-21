@@ -23,11 +23,11 @@ const Nav = () => {
         <Image
           src="/assets/images/logo.svg"
           alt="promptpedia logo"
-          width={30}
-          height={30}
+          width={60}
+          height={60}
           className="object-contain"
         />
-        <p className="logo_text">GPTdeck</p>
+        <p className="logo_text"></p>
       </Link>
       {/* for desktop view */}
       <div className="sm:flex hidden">

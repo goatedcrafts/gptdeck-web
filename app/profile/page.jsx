@@ -1,5 +1,6 @@
 "use client";
 
+import Profile from "@components/Profile";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
@@ -9,15 +10,21 @@ const MyProfile = () => {
 
   const [posts, setPosts] = useState([]);
 
+  console.log("from profile: " + session?.user.id);
+
   useEffect(() => {
     const fetchPost = async () => {
-      const response = await fetch("`/api/users/${session?.user.id}/posts`");
-      const data = await response.json();
-      setPosts(data);
+      if (session?.user.id) {
+        const response = await fetch(`/api/users/${session.user.id}/posts`);
+        const data = await response.json();
+        console.log("from useEffect: " + data);
+
+        setPosts(data);
+      }
     };
 
     if (session?.user.id) fetchPost();
-  }, []);
+  }, [session]);
 
   const handleEdit = () => {};
 

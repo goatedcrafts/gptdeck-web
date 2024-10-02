@@ -10,13 +10,13 @@ export const metadata = {
 const RootLayout = ({ children }) => {
   return (
     <html lang="en">
-      <body>
+      <body className="overflow-x-hidden">
         <Provider>
-          <div className="main">
-            <div className="gradient" />
+          <div className="">
+            <div className="" />
           </div>
 
-          <main className="app">
+          <main className="max-w-7xl mx-auto sm:px-16">
             <Nav />
             {children}
           </main>

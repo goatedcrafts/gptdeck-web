@@ -3,7 +3,7 @@ import PromptCard from "./PromptCard";
 const Profile = ({ name, desc, data, handleEdit, handleDelete }) => {
   console.log(data);
   return (
-    <section className="w-full">
+    <section className="w-full pt-20">
       <h1 className="head_text text-left">
         <span className="blue_gradient">{name}'s Profile</span>
         <p className="desc text-left">{desc}</p>

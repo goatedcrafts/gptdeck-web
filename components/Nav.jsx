@@ -4,11 +4,13 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { signIn, signOut, useSession, getProviders } from "next-auth/react";
 import { HoverBorderGradient } from "./ui/hover-border-gradient";
+
 const Nav = () => {
   const { data: session } = useSession();
-
   const [providers, setProviders] = useState(null);
   const [toggleDropdown, setToggleDropdown] = useState(false);
+  const [prevScrollPos, setPrevScrollPos] = useState(0);
+  const [visible, setVisible] = useState(true);
 
   useEffect(() => {
     const fetchProviders = async () => {
@@ -18,8 +20,23 @@ const Nav = () => {
     fetchProviders();
   }, []);
 
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollPos = window.scrollY;
+      setVisible(prevScrollPos > currentScrollPos || currentScrollPos < 10);
+      setPrevScrollPos(currentScrollPos);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [prevScrollPos]);
+
   return (
-    <nav className="flex z-50 w-full fixed top-0 left-0 right-0 py-4 px-32 bg-black text-white transition-transform duration-300 ease-in-out">
+    <nav
+      className={`flex z-50 w-full fixed top-0 left-0 right-0 py-1 px-32 bg-black text-white transition-transform duration-300 ease-in-out ${
+        visible ? "translate-y-0" : "-translate-y-full"
+      }`}
+    >
       <div className="container mx-auto flex justify-between items-center">
         <Link href="/" className="flex gap-2 items-center">
           <Image

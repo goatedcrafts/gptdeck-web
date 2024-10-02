@@ -29,7 +29,7 @@ const Home = () => {
           GPT prompts with a community of AI enthusiasts.
         </p>
       </WavyBackground>
-      <Feed />
+      <Feed className="" />
     </section>
   );
 };

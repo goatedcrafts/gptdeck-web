@@ -33,7 +33,7 @@ const Feed = () => {
 
   const handleSearchChange = (e) => {};
   return (
-    <section className="feed">
+    <section className="mx-auto w-full max-w-xl flex justify-center items-center flex-col gap-2">
       <form className="relative w-full flex-center">
         <input
           type="text"

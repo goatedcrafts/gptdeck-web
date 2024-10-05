@@ -1,5 +1,7 @@
 import Feed from "@components/Feed";
+import Hero from "@components/Hero";
 import { Cover } from "@components/ui/cover";
+import PulsatingButton from "@components/ui/pulsating-button";
 import { WavyBackground } from "@components/ui/wavy-background";
 
 const Home = () => {
@@ -17,20 +19,30 @@ const Home = () => {
 
     //   <Feed />
     // </section>
-    <section className="w-full flex-center flex-col px-32">
-      <WavyBackground className="mx-auto pb-40">
-        <h1 className="mt-5 text-md font-extrabold leading-[1.15] md:text-5xl text-center text-white">
-          Explore & Share
-          <br className="max-md:hidden" />
-          <span className="orange_gradient"> Inspiring GPT Prompts</span>
-        </h1>
-        <p className="mt-5 text-lg text-white/50 sm:text-xl max-w-2xl text-center">
-          GPTDeck is your go-to platform to discover, create, and share powerful
-          GPT prompts with a community of AI enthusiasts.
-        </p>
-      </WavyBackground>
-      <Feed className="" />
-    </section>
+
+    //latest change
+    // <section className="w-full flex-center flex-col px-32">
+    //   <WavyBackground className="mx-auto pb-40 flex flex-col justify-center items-center">
+    //     <h1 className="mt-60 text-md font-extrabold leading-[1.15] md:text-5xl text-center text-white">
+    //       Explore & Share
+    //       <br className="max-md:hidden" />
+    //       <span className="orange_gradient"> Inspiring GPT Prompts</span>
+    //     </h1>
+    //     <p className="mt-5 text-lg text-white/50 sm:text-xl max-w-2xl text-center">
+    //       GPTDeck is your go-to platform to discover, create, and share powerful
+    //       GPT prompts with a community of AI enthusiasts.
+    //     </p>
+    //     <PulsatingButton className="mt-40">
+    //       download the premium prompts
+    //     </PulsatingButton>
+    //   </WavyBackground>
+    //   <Feed className="" />
+    // </section>
+
+    <>
+      <Hero />
+      <Feed />
+    </>
   );
 };
 

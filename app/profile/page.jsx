@@ -10,15 +10,11 @@ const MyProfile = () => {
   const router = useRouter();
   const [posts, setPosts] = useState([]);
 
-  console.log("from profile: " + session?.user.id);
-
   useEffect(() => {
     const fetchPost = async () => {
       if (session?.user.id) {
         const response = await fetch(`/api/users/${session.user.id}/posts`);
         const data = await response.json();
-        console.log("from useEffect: " + data);
-
         setPosts(data);
       }
     };
@@ -31,7 +27,9 @@ const MyProfile = () => {
   };
 
   const handleDelete = async (post) => {
-    const confirmation = confirm("are you sure");
+    const confirmation = confirm(
+      "Are you sure you want to delete this prompt?"
+    );
 
     if (confirmation) {
       try {
@@ -40,18 +38,17 @@ const MyProfile = () => {
         });
 
         const filteredPost = posts.filter((p) => p._id !== post._id);
-        console.log(filteredPost);
         setPosts(filteredPost);
       } catch (error) {
-        console.log(error);
+        console.error("Error deleting post:", error);
       }
     }
   };
 
   return (
     <Profile
-      name="anjal"
-      desc="welcome to your personalised profile page"
+      name={session?.user.name || "User"}
+      desc="Welcome to your personalized profile page"
       data={posts}
       handleEdit={handleEdit}
       handleDelete={handleDelete}

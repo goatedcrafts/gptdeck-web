@@ -20,28 +20,26 @@ const PromptCard = ({ post, handleTagClick, handleEdit, handleDelete }) => {
   };
 
   return (
-    <div className="prompt_card">
+    <div className="bg-gray-800 bg-opacity-30 backdrop-filter backdrop-blur-lg rounded-2xl p-6 border border-gray-700 shadow-lg transition-all hover:bg-opacity-40 hover:shadow-xl">
       <div className="flex justify-between items-start gap-5">
-        <div className="flex-1 flex justify-start items-center gap-3 cursor-pointer">
+        <div className="flex items-center gap-3">
           <Image
             src={post.creator.image}
             alt="user image"
-            width={40}
-            height={40}
-            className="rounded-full object-contain"
+            width={48}
+            height={48}
+            className="rounded-full object-cover border-2 border-blue-400"
           />
+          <div>
+            <h3 className="font-semibold text-white text-lg">
+              {post.creator.username}
+            </h3>
+            {/* <p className="text-gray-400 text-sm">{post.creator.email}</p> */}
+          </div>
         </div>
-        <div className="flex flex-col">
-          <h3 className="font-satoshi font-semibold text-sm text-gray-900">
-            {post.creator.username}
-          </h3>
-        </div>
-
-        <div
-          className="copy_btn"
-          onClick={() => {
-            handleCopy();
-          }}
+        <button
+          className="p-2 rounded-full bg-gray-700 bg-opacity-50 hover:bg-opacity-75 transition-all"
+          onClick={handleCopy}
         >
           <Image
             src={
@@ -49,34 +47,35 @@ const PromptCard = ({ post, handleTagClick, handleEdit, handleDelete }) => {
                 ? "/assets/icons/tick.svg"
                 : "/assets/icons/copy.svg"
             }
-            width={12}
-            height={12}
+            width={16}
+            height={16}
+            alt="copy button"
           />
-        </div>
+        </button>
       </div>
-
-      <p className="my-4 font-satoshi text-sm text-white">{post.prompt}</p>
+      <p className="my-4 text-lg text-gray-200 leading-relaxed">
+        {post.prompt}
+      </p>
       <p
-        className="font-inter text-sm blue_gradient cursor-pointer"
+        className="text-sm text-blue-400 cursor-pointer hover:text-blue-300 transition-colors inline-block px-3 py-1 rounded-full bg-blue-900 bg-opacity-30"
         onClick={() => handleTagClick && handleTagClick(post.tag)}
       >
-        {post.tag}
+        #{post.tag}
       </p>
-
-      {session?.user.id === post.creator._id && pathName === "/profile" && (
-        <div className="mt-5 flex-center gap-4 border-t border-gray-100 pt-3">
-          <p
-            className="font-inter text-sm green_gradient cursor-pointer"
+      {handleEdit && handleDelete && (
+        <div className="mt-5 flex justify-end gap-4 border-t border-gray-700 pt-3">
+          <button
+            className="text-sm text-green-400 cursor-pointer hover:text-green-300 transition-colors px-3 py-1 rounded-full bg-green-900 bg-opacity-30 hover:bg-opacity-50"
             onClick={handleEdit}
           >
-            edit
-          </p>
-          <p
-            className="font-inter text-sm orange_gradient cursor-pointer"
+            Edit
+          </button>
+          <button
+            className="text-sm text-red-400 cursor-pointer hover:text-red-300 transition-colors px-3 py-1 rounded-full bg-red-900 bg-opacity-30 hover:bg-opacity-50"
             onClick={handleDelete}
           >
-            delete
-          </p>
+            Delete
+          </button>
         </div>
       )}
     </div>

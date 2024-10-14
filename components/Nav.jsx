@@ -41,7 +41,7 @@ const Nav = () => {
         <Link href="/" className="flex gap-2 items-center">
           <Image
             src="/assets/images/GPT1.svg"
-            alt="promptpedia logo"
+            alt="gptdeck logo"
             width={60}
             height={60}
             className="object-contain"

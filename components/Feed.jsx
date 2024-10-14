@@ -5,7 +5,7 @@ import PromptCard from "./PromptCard";
 
 const PromptCardList = ({ data, handleTagClick }) => {
   return (
-    <div className="mt-16 prompt_layout">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {data.map((post) => (
         <PromptCard
           key={post._id}
@@ -33,17 +33,22 @@ const Feed = () => {
 
   const handleSearchChange = (e) => {};
   return (
-    <section className="mx-auto w-full max-w-xl flex justify-center items-center flex-col gap-2">
-      {/* <form className="relative w-full flex-center">
+    <section className="max-w-7xl mx-auto px-4 py-12">
+      <form className="relative w-full max-w-xl mx-auto mb-12">
         <input
           type="text"
-          placeholder="enter a tag or a username"
+          placeholder="Search for a tag or a username"
           value={searchText}
-          required
           onChange={handleSearchChange}
-          className="search_input peer"
+          className="w-full px-6 py-3 rounded-full bg-gray-700 bg-opacity-50 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
         />
-      </form> */}
+        <button
+          type="submit"
+          className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-blue-500 text-white px-4 py-2 rounded-full hover:bg-blue-600 transition-colors"
+        >
+          Search
+        </button>
+      </form>
 
       <PromptCardList data={posts} handleTagClick={() => {}} />
     </section>

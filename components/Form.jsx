@@ -2,54 +2,66 @@ import Link from "next/link";
 
 const Form = ({ type, post, setPost, submitting, handleSubmit }) => {
   return (
-    <section className="w-full max-w-full flex-start flex-col pt-20 mb-40">
-      <h1 className="head_text text-left">
-        <span className="blue_gradient">{type} Post</span>
+    <section className="w-full max-w-2xl mx-auto">
+      <h1 className="text-4xl md:text-5xl font-bold mb-4">
+        <span className="bg-gradient-to-r from-blue-400 to-cyan-400 text-transparent bg-clip-text">
+          {type} Post
+        </span>
       </h1>
-      <p className="desc text-left max-w-md">
+      <p className="text-xl text-gray-300 mb-8">
         {type} and share amazing prompts with the world, and let your
         imagination run wild with any AI-powered platform
       </p>
       <form
         onSubmit={handleSubmit}
-        className="mt-10 w-full max-w-2xl flex flex-col gap-7 glassmorphism"
+        className="bg-gray-800 bg-opacity-30 backdrop-filter backdrop-blur-lg rounded-2xl p-8 border border-gray-700 shadow-lg"
       >
-        <label>
-          <span className="font-satoshi font-semibold text-base text-gray-700">
+        <div className="mb-6">
+          <label
+            className="block text-gray-300 text-sm font-bold mb-2"
+            htmlFor="prompt"
+          >
             Your AI prompt
-          </span>
+          </label>
           <textarea
+            id="prompt"
             value={post.prompt}
             onChange={(e) => setPost({ ...post, prompt: e.target.value })}
-            placeholder="write your prompt here"
+            placeholder="Write your prompt here"
             required
-            className="form_textarea"
+            className="w-full px-3 py-2 text-gray-300 bg-gray-700 bg-opacity-50 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
+            rows="6"
           />
-        </label>
-        <label>
-          <span className="font-satoshi font-semibold text-base text-gray-700">
-            tags
-            <span className="font-normal">(#products, #webdev)</span>
-          </span>
+        </div>
+        <div className="mb-6">
+          <label
+            className="block text-gray-300 text-sm font-bold mb-2"
+            htmlFor="tag"
+          >
+            Tags <span className="font-normal">(#product, #webdev, #idea)</span>
+          </label>
           <input
+            id="tag"
             value={post.tag}
             onChange={(e) => setPost({ ...post, tag: e.target.value })}
-            placeholder="#tags"
+            placeholder="#tag"
             required
-            className="form_input"
+            className="w-full px-3 py-2 text-gray-300 bg-gray-700 bg-opacity-50 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
           />
-        </label>
-        <div className="flex-end mx-3 mb-5 gap-4">
-          <Link href={"/"} className="text-gray-500 text-sm">
-            cancel
+        </div>
+        <div className="flex justify-end items-center gap-4">
+          <Link
+            href="/"
+            className="text-gray-400 hover:text-gray-200 transition-colors"
+          >
+            Cancel
           </Link>
           <button
             type="submit"
             disabled={submitting}
-            className="px-5 py-1.5 text-sm rounded-full text-white bg-primary-orange
-          "
+            className="px-5 py-2 text-sm font-medium rounded-full text-white bg-blue-600 hover:bg-blue-700 transition-colors disabled:opacity-50"
           >
-            {submitting ? `${type}...` : type}
+            {submitting ? `${type}ing...` : type}
           </button>
         </div>
       </form>

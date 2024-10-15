@@ -32,20 +32,24 @@ const CreatePrompt = () => {
         router.push("/");
       }
     } catch (error) {
-      console.log(error);
+      console.error("Error creating prompt:", error);
     } finally {
       setSubmitting(false);
     }
   };
 
   return (
-    <Form
-      type="Create"
-      post={post}
-      setPost={setPost}
-      submitting={submitting}
-      handleSubmit={createPrompt}
-    />
+    <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 text-white">
+      <div className="container mx-auto px-4 py-24">
+        <Form
+          type="Create"
+          post={post}
+          setPost={setPost}
+          submitting={submitting}
+          handleSubmit={createPrompt}
+        />
+      </div>
+    </div>
   );
 };
 

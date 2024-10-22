@@ -1,17 +1,14 @@
-"use client";
-
-import { useSession } from "next-auth/react";
-import Image from "next/image";
-import { usePathname } from "next/navigation";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
+import Image from "next/image";
+import { useSession } from "next-auth/react";
+import { usePathname, useRouter } from "next/navigation";
 
-const PromptCard = ({ post, handleTagClick, handleEdit, handleDelete }) => {
-  const [copied, setCopied] = useState("");
-
+const PromptCard = ({ post, handleEdit, handleDelete, handleTagClick }) => {
   const { data: session } = useSession();
   const pathName = usePathname();
   const router = useRouter();
+
+  const [copied, setCopied] = useState("");
 
   const handleCopy = () => {
     setCopied(post.prompt);
@@ -34,7 +31,7 @@ const PromptCard = ({ post, handleTagClick, handleEdit, handleDelete }) => {
             <h3 className="font-semibold text-white text-lg">
               {post.creator.username}
             </h3>
-            {/* <p className="text-gray-400 text-sm">{post.creator.email}</p> */}
+            <p className="text-gray-400 text-sm">{post.creator.email}</p>
           </div>
         </div>
         <button
@@ -53,7 +50,7 @@ const PromptCard = ({ post, handleTagClick, handleEdit, handleDelete }) => {
           />
         </button>
       </div>
-      <p className="my-4 text-lg text-gray-200 leading-relaxed">
+      <p className="my-4 text-lg text-gray-200 leading-relaxed whitespace-pre-line">
         {post.prompt}
       </p>
       <p
@@ -62,7 +59,7 @@ const PromptCard = ({ post, handleTagClick, handleEdit, handleDelete }) => {
       >
         #{post.tag}
       </p>
-      {handleEdit && handleDelete && (
+      {session?.user.id === post.creator._id && pathName === "/profile" && (
         <div className="mt-5 flex justify-end gap-4 border-t border-gray-700 pt-3">
           <button
             className="text-sm text-green-400 cursor-pointer hover:text-green-300 transition-colors px-3 py-1 rounded-full bg-green-900 bg-opacity-30 hover:bg-opacity-50"

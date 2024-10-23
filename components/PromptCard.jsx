@@ -29,9 +29,9 @@ const PromptCard = ({ post, handleEdit, handleDelete, handleTagClick }) => {
           />
           <div>
             <h3 className="font-semibold text-white text-lg">
-              {post.creator.username}
+              {post.creator.displayName}
             </h3>
-            <p className="text-gray-400 text-sm">{post.creator.email}</p>
+            <p className="text-gray-400 text-sm">@{post.creator.username}</p>
           </div>
         </div>
         <button

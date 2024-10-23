@@ -15,6 +15,10 @@ const handler = NextAuth({
       const sessionUser = await User.findOne({ email: session.user.email });
       if (sessionUser) {
         session.user.id = sessionUser._id.toString();
+        session.user.username = sessionUser.username;
+        session.user.displayName = sessionUser.displayName;
+        session.user.isProfileComplete =
+          !!sessionUser.username && !!sessionUser.displayName;
       }
       return session;
     },
@@ -25,7 +29,6 @@ const handler = NextAuth({
         if (!userExists) {
           await User.create({
             email: profile.email,
-            username: profile.name.replace(" ", "").toLowerCase(),
             image: profile.picture,
           });
         }

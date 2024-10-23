@@ -1,10 +1,16 @@
 import Navbar from "@components/Navbar";
 import Provider from "@components/Provider";
+import dynamic from "next/dynamic";
 import "@styles/globals.css";
 
+const ProfileCompletionCheck = dynamic(
+  () => import("@components/ProfileCompletionCheck"),
+  { ssr: false }
+);
+
 export const metadata = {
-  title: "gptdeck",
-  discription: "share ur prompts",
+  title: "GPTDeck",
+  description: "Share your prompts",
 };
 
 const RootLayout = ({ children }) => {
@@ -17,9 +23,8 @@ const RootLayout = ({ children }) => {
           </div>
 
           <main className="">
-            {/* <Nav /> */}
             <Navbar />
-            {children}
+            <ProfileCompletionCheck>{children}</ProfileCompletionCheck>
           </main>
         </Provider>
       </body>

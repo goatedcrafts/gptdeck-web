@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { ArrowUpRight, Instagram, Trophy } from "lucide-react";
 import PulsatingButton from "./ui/pulsating-button";
+import Logo from "./Logo";
 export default function Hero() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 text-white">
@@ -56,7 +57,7 @@ export default function Hero() {
             Works perfectly with the conversational AI you love.
           </p>
           <div className="flex justify-center space-x-8">
-            <Image
+            {/* <Image
               src="/placeholder.svg"
               alt="Medium"
               width={100}
@@ -73,7 +74,8 @@ export default function Hero() {
               alt="Other App"
               width={32}
               height={32}
-            />
+            /> */}
+            <Logo />
           </div>
         </footer>
       </div>

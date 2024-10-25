@@ -229,3 +229,9 @@
 .flex-between {
   @apply flex justify-between items-center;
 }
+
+/*created by anjal*/
+
+.logo-png {
+  @apply h-20 w-auto;
+}

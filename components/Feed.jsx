@@ -1,7 +1,78 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import PromptCard from "./PromptCard";
+import { Search, User, Tag } from "lucide-react";
+
+const SearchBar = ({
+  searchText,
+  handleSearchChange,
+  handleSearchSubmit,
+  searchType,
+  setSearchType,
+}) => {
+  return (
+    <div className="w-full max-w-xl mx-auto mb-12">
+      <form onSubmit={handleSearchSubmit} className="relative">
+        <div className="relative">
+          <input
+            type="text"
+            placeholder={`Search by ${
+              searchType === "username"
+                ? "username"
+                : searchType === "tag"
+                ? "tag"
+                : "username or tag"
+            }...`}
+            value={searchText}
+            onChange={handleSearchChange}
+            className="w-full px-6 py-3 pl-12 rounded-full bg-gray-800 bg-opacity-50 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all backdrop-blur-sm border border-gray-700"
+          />
+          <Search
+            className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"
+            size={20}
+          />
+        </div>
+      </form>
+
+      <div className="flex justify-center gap-4 mt-4">
+        <button
+          onClick={() => setSearchType("all")}
+          className={`px-4 py-2 rounded-full flex items-center gap-2 transition-all ${
+            searchType === "all"
+              ? "bg-blue-600 text-white"
+              : "bg-gray-800 bg-opacity-50 text-gray-400 hover:bg-opacity-70"
+          }`}
+        >
+          <Search size={16} />
+          All
+        </button>
+        <button
+          onClick={() => setSearchType("username")}
+          className={`px-4 py-2 rounded-full flex items-center gap-2 transition-all ${
+            searchType === "username"
+              ? "bg-blue-600 text-white"
+              : "bg-gray-800 bg-opacity-50 text-gray-400 hover:bg-opacity-70"
+          }`}
+        >
+          <User size={16} />
+          Username
+        </button>
+        <button
+          onClick={() => setSearchType("tag")}
+          className={`px-4 py-2 rounded-full flex items-center gap-2 transition-all ${
+            searchType === "tag"
+              ? "bg-blue-600 text-white"
+              : "bg-gray-800 bg-opacity-50 text-gray-400 hover:bg-opacity-70"
+          }`}
+        >
+          <Tag size={16} />
+          Tag
+        </button>
+      </div>
+    </div>
+  );
+};
 
 const PromptCardList = ({ data, handleTagClick }) => {
   return (
@@ -19,38 +90,117 @@ const PromptCardList = ({ data, handleTagClick }) => {
 
 const Feed = () => {
   const [searchText, setSearchText] = useState("");
+  const [searchType, setSearchType] = useState("all"); // 'all', 'username', or 'tag'
   const [posts, setPosts] = useState([]);
+  const [filteredPosts, setFilteredPosts] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [searchTimeout, setSearchTimeout] = useState(null);
 
   useEffect(() => {
-    const fetchPost = async () => {
-      const response = await fetch("/api/prompt");
-      const data = await response.json();
-      setPosts(data);
+    const fetchPosts = async () => {
+      try {
+        const response = await fetch("/api/prompt");
+        const data = await response.json();
+        setPosts(data);
+        setFilteredPosts(data);
+      } catch (error) {
+        console.error("Error fetching posts:", error);
+      } finally {
+        setIsLoading(false);
+      }
     };
 
-    fetchPost();
+    fetchPosts();
   }, []);
 
-  const handleSearchChange = (e) => {};
+  const handleSearchChange = (e) => {
+    clearTimeout(searchTimeout);
+    setSearchText(e.target.value);
+
+    setSearchTimeout(
+      setTimeout(async () => {
+        if (e.target.value.trim()) {
+          try {
+            setIsLoading(true);
+            const response = await fetch(
+              `/api/search?q=${encodeURIComponent(
+                e.target.value
+              )}&type=${searchType}`
+            );
+            const data = await response.json();
+            setFilteredPosts(data);
+          } catch (error) {
+            console.error("Error searching:", error);
+          } finally {
+            setIsLoading(false);
+          }
+        } else {
+          setFilteredPosts(posts);
+        }
+      }, 500)
+    );
+  };
+
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+  };
+
+  const handleTagClick = (tag) => {
+    setSearchText(tag);
+    setSearchType("tag");
+    performSearch(tag, "tag");
+  };
+
+  const performSearch = async (query, type) => {
+    try {
+      setIsLoading(true);
+      const response = await fetch(
+        `/api/search?q=${encodeURIComponent(query)}&type=${type}`
+      );
+      const data = await response.json();
+      setFilteredPosts(data);
+    } catch (error) {
+      console.error("Error searching:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Effect to perform search when search type changes
+  useEffect(() => {
+    if (searchText.trim()) {
+      performSearch(searchText, searchType);
+    }
+  }, [searchType]);
+
   return (
     <section className="max-w-7xl mx-auto px-4 py-12">
-      <form className="relative w-full max-w-xl mx-auto mb-12">
-        <input
-          type="text"
-          placeholder="Search for a tag or a username"
-          value={searchText}
-          onChange={handleSearchChange}
-          className="w-full px-6 py-3 rounded-full bg-gray-700 bg-opacity-50 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
-        />
-        <button
-          type="submit"
-          className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-blue-500 text-white px-4 py-2 rounded-full hover:bg-blue-600 transition-colors"
-        >
-          Search
-        </button>
-      </form>
+      <SearchBar
+        searchText={searchText}
+        handleSearchChange={handleSearchChange}
+        handleSearchSubmit={handleSearchSubmit}
+        searchType={searchType}
+        setSearchType={setSearchType}
+      />
 
-      <PromptCardList data={posts} handleTagClick={() => {}} />
+      {isLoading ? (
+        <div className="flex justify-center items-center min-h-[200px]">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+        </div>
+      ) : filteredPosts.length === 0 ? (
+        <div className="text-center text-gray-400 mt-8">
+          <p className="text-lg">No prompts found</p>
+          <p className="text-sm mt-2">
+            {searchType === "username"
+              ? "Try searching for a different username"
+              : searchType === "tag"
+              ? "Try searching for a different tag"
+              : "Try searching with different keywords"}
+          </p>
+        </div>
+      ) : (
+        <PromptCardList data={filteredPosts} handleTagClick={handleTagClick} />
+      )}
     </section>
   );
 };

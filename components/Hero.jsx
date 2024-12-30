@@ -6,7 +6,7 @@ import Logo from "./Logo";
 export default function Hero() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 text-white">
-      <div className="container mx-auto px-4 pt-24">
+      <div className="container mx-auto px-4 pt-4">
         <main className="text-center px-4 py-20">
           <Link
             href="#"

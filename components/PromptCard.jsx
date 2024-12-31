@@ -57,7 +57,7 @@ const PromptCard = ({ post, handleEdit, handleDelete, handleTagClick }) => {
         className="text-sm text-blue-400 cursor-pointer hover:text-blue-300 transition-colors inline-block px-3 py-1 rounded-full bg-blue-900 bg-opacity-30"
         onClick={() => handleTagClick && handleTagClick(post.tag)}
       >
-        #{post.tag}
+        {post.tag}
       </p>
       {session?.user.id === post.creator._id && pathName === "/profile" && (
         <div className="mt-5 flex justify-end gap-4 border-t border-gray-700 pt-3">

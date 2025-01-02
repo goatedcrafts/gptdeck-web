@@ -1,25 +1,17 @@
 "use client";
 
 import { useSession } from "next-auth/react";
-import { useState, useEffect } from "react";
-import ProfileCompletionForm from "./ProfileCompletionForm";
+import ProfileCompletion from "./ProfileCompletionForm";
 
 const ProfileCompletionCheck = ({ children }) => {
   const { data: session, status } = useSession();
-  const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    if (status !== "loading") {
-      setIsLoading(false);
-    }
-  }, [status]);
-
-  if (isLoading) {
+  if (status === "loading") {
     return <div>Loading...</div>;
   }
 
-  if (session && !session.user.isProfileComplete) {
-    return <ProfileCompletionForm />;
+  if (session && (!session.user.username || !session.user.displayName)) {
+    return <ProfileCompletion />;
   }
 
   return children;

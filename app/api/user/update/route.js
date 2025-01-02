@@ -1,8 +1,8 @@
 import { connectToDB } from "@utils/database";
 import User from "@models/user";
 
-export const POST = async (req) => {
-  const { userId, username, displayName } = await req.json();
+export const PATCH = async (request) => {
+  const { userId, username, displayName } = await request.json();
 
   try {
     await connectToDB();
@@ -16,7 +16,7 @@ export const POST = async (req) => {
     const updatedUser = await User.findByIdAndUpdate(
       userId,
       { username, displayName },
-      { new: true }
+      { new: true, runValidators: true }
     );
 
     if (!updatedUser) {

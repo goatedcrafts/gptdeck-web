@@ -88,17 +88,18 @@ const PromptCardList = ({ data, handleTagClick }) => {
   );
 };
 
-const Feed = () => {
+const Feed = ({ initialPosts = [] }) => {
   const [searchText, setSearchText] = useState("");
   const [searchType, setSearchType] = useState("all"); // 'all', 'username', or 'tag'
-  const [posts, setPosts] = useState([]);
-  const [filteredPosts, setFilteredPosts] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [posts, setPosts] = useState(initialPosts);
+  const [filteredPosts, setFilteredPosts] = useState(initialPosts);
+  const [isLoading, setIsLoading] = useState(false);
   const [searchTimeout, setSearchTimeout] = useState(null);
 
   useEffect(() => {
     const fetchPosts = async () => {
       try {
+        setIsLoading(true);
         const response = await fetch("/api/prompt");
         const data = await response.json();
         setPosts(data);
@@ -110,8 +111,10 @@ const Feed = () => {
       }
     };
 
-    fetchPosts();
-  }, []);
+    if (initialPosts.length === 0) {
+      fetchPosts();
+    }
+  }, [initialPosts]);
 
   const handleSearchChange = (e) => {
     clearTimeout(searchTimeout);
